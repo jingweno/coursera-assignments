@@ -58,7 +58,31 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    def recursiveBalance(balanceParCount: Int, chars: List[Char]): Int = {
+      var count = balanceParCount
+      try {
+        val c = chars.head
+        if (c == '(') {
+          count = count + 1
+        } else if (c == ')') {
+          // ')' is not the first one
+          if (count == 0) {
+            throw new IllegalArgumentException
+          } else {
+            count = count - 1
+          }
+        }
+
+        recursiveBalance(count, chars.tail)
+      } catch {
+        case e: NoSuchElementException => count
+        case e: IllegalArgumentException => -1
+      }
+    }
+
+    recursiveBalance(0, chars) == 0
+  }
 
   /**
    * Exercise 3
