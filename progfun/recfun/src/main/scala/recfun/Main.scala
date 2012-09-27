@@ -87,5 +87,15 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    def doCountChange(money: Int, coins: => List[Int], branch: List[Int]): Int = {
+      coins.map(
+        x =>
+          if (branch.sum + x > money || x < branch.last) 0
+          else if (branch.sum + x == money) 1
+          else doCountChange(money, coins, branch :+ x)).sum
+    }
+
+    doCountChange(money, coins.sortWith((a, b) => a < b), List(0))
+  }
 }
